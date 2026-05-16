@@ -46,13 +46,16 @@ jobs:
         
       - name: Install required packages
         run: |
-          # Purge any existing or leftover references to the broken PPA
+          # Force remove the problematic PPA using apt tools directly
+          sudo add-apt-repository --remove ppa:cybermax-dexter/sdl2-backport -y || true
           sudo rm -f /etc/apt/sources.list.d/*sdl2-backport*.list
           sudo rm -f /etc/apt/sources.list.d/*cybermax-dexter*.list
-          
-          # Configure multiarch and install native packages
+
+          # Configure multiarch architecture
           sudo dpkg --add-architecture i386
           sudo apt-get update
+          
+          # Install the dependencies natively from standard Ubuntu repositories
           sudo apt-get -y install build-essential uuid-dev clang llvm iasl nasm gcc-aarch64-linux-gnu abootimg python3-distutils python3-pil python3-git gettext libgcc-s1:i386 libstdc++6:i386 libsdl2-dev
           sudo apt-get -y install wine wine32 wine64
 
