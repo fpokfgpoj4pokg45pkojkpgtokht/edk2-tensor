@@ -44,10 +44,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-      - name: Install requires packages
+      - name: Install required packages
         run: |
+          sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get -y install build-essential uuid-dev clang llvm iasl nasm gcc-aarch64-linux-gnu abootimg python3-distutils python3-pil python3-git gettext
+          sudo apt-get -y install build-essential uuid-dev clang llvm iasl nasm gcc-aarch64-linux-gnu abootimg python3-distutils python3-pil python3-git gettext libgcc-s1:i386 libstdc++6:i386 libsdl2-dev
+          sudo apt-get -y install wine wine32 wine64
 
       - name: Build device ${{ matrix.device }}
         run: |
